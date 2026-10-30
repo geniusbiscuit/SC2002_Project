@@ -1,0 +1,161 @@
+@startuml
+title Sequence: a VIP arrives, the manager switches Happy Hour on, and the VIP pays $10.80 instead of $13.50 (stage-3, base arrival turn 4)
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam sequenceMessageAlign left
+skinparam maxMessageSize 220
+skinparam ParticipantPadding 12
+skinparam BoxPadding 6
+autonumber "<b>0"
+
+actor Manager
+box "Boundary" #F5F5F5
+participant ":ConsoleUI" as UI
+end box
+box "Control" #E8F1FB
+participant ":GameController" as GC
+end box
+box "Entity" #EEF7EE
+participant ":Restaurant" as R
+participant ":HappyHour" as HH
+participant ":Host" as Host
+participant ":Waiter" as W
+participant ":Chef" as C
+participant ":Cashier" as K
+participant "vip:VIPCustomer" as V
+participant "o:Order" as O
+end box
+
+== Turn 4, step 1: arrival ==
+UI -> GC : beginTurn()
+GC -> R : startStaffTurn()
+GC -> R : addCustomer(slot.factory().apply(2))  <i>(a VIPCustomer, satisfaction 100, WAITING_FOR_TABLE)</i>
+GC --> UI : ["Customer #2 VIP arrives..."]
+UI -> R : queuedCustomers(), servableOrders(4), ...  <i>(showState: read-only)</i>
+UI --> Manager : state: queue [#2 VIP], Happy Hour available
+
+== Manager choice 1: Happy Hour (the choice that changes the outcome) ==
+UI --> Manager : "Switch Happy Hour on?  1) Yes  0) No"
+Manager -> UI : 1
+UI -> GC : activateHappyHour()
+alt no staff member has acted yet this turn
+  GC -> HH : activate()
+  note right of HH : guards: enabled and not yet used,\notherwise InvalidActionException\n("once per game") -> ActionResult.fail
+  GC -> R : applyHappyHourRecovery()
+  loop for each customer in the restaurant
+    R -> V : recoverSatisfaction(15)  <i>(only if state is unserved; max 100)</i>
+  end
+  GC --> UI : ok("Happy Hour is ON for this turn and the next ...")
+else a staff member already acted this turn
+  GC --> UI : fail("only at the start of a turn")
+end
+
+== Steps 2-3: Host, Waiter and Chef assignments (Host, then Waiter, then Chef) ==
+Manager -> UI : Host task: seat #2
+UI -> GC : hostSeat(2)
+GC -> Host : seat(vip, tables)
+Host -> V : sitAt(table)  <i>(via Seating.seat: guards state == WAITING_FOR_TABLE and a free table)</i>
+Host --> GC : table
+GC --> UI : ok("The Host seats customer #2 VIP at table 2.")
+
+loop until the ActionResult is a success (an invalid choice does not use up the task)
+  Manager -> UI : Waiter task 3 (serve) for #2  <i>(a mistake: nothing has been ordered yet)</i>
+  UI -> GC : waiterServe(2)
+  GC -> W : serve(vip, 4)
+  W --> GC : InvalidActionException("Customer #2 has no order waiting to be served (currently SEATED)")
+  GC --> UI : fail(message)
+  UI --> Manager : "Not allowed ... Your staff task was not used - choose again."
+end
+note over GC, W : The Waiter's task was not consumed (markActed() is only reached after success),\nso the same turn continues. Before the Host acts, a Waiter choice is rejected by the controller's phase check.
+
+Manager -> UI : Waiter task: take order from #2  <i>(the Host seated #2 this turn)</i>
+UI -> GC : waiterTakeOrder(2)
+GC -> W : takeOrder(vip, menu, happyHour)
+W -> V : chooseItem(menu)
+V --> W : Burger  <i>(Menu.defaultChoiceFor(2): documented rule)</i>
+W -> V : billFor(burger)
+V --> W : 1350  <i>(polymorphism: VIPCustomer overrides billFor, -10%)</i>
+W -> HH : priceFor(1350)
+HH --> W : 1080  <i>(Happy Hour is active: -20% after the VIP discount)</i>
+W -> V : placeOrder(burger, 1080)
+V -> O : <<create>> Order(vip, burger, 1080)
+note right of O : The bill is locked now: status PLACED,\n1 preparation unit remaining.
+GC --> UI : ok("... Burger ($10.80, list price $15.00, 1 prep unit(s)).")
+
+Manager -> UI : Chef task: prepare #2
+UI -> GC : chefPrepare(2)
+GC -> C : prepare(vip, 4)
+C -> O : isPreparable()
+C -> O : prepareOneUnit(4)
+O --> C : status = READY, readyTurn = 4
+GC --> UI : ok("... The dish is READY (it can be served next turn at the earliest).")
+
+== Steps 4-5 of turn 4 (automatic) ==
+UI -> GC : endTurn()
+GC -> R : collectPayment(4)
+GC -> R : finishEating(4)
+GC -> R : applyWaitingLoss()
+loop for each customer still in the restaurant
+  R -> V : waitOneTurn()
+  note right of V : unserved: loses getWaitingLoss() = 5 (VIP)\nthen hasLostPatience()? (satisfaction == 0)
+end
+GC -> HH : endTurn()   <i>(remainingTurns 2 -> 1)</i>
+GC --> UI : TurnSummary
+
+== Turn 5: READY, then SERVED ==
+UI -> GC : beginTurn()
+GC -> R : applyHappyHourRecovery()   <i>(Happy Hour still active: waiting customers recover)</i>
+Manager -> UI : Host: wait / Waiter: serve #2
+UI -> GC : waiterServe(2)
+GC -> W : serve(vip, 5)
+W -> O : isServableOn(5)
+O --> W : true  <i>(guard: status == READY and readyTurn 4 < 5)</i>
+W -> V : startEating(5)
+V -> O : markServed()
+GC --> UI : ok("The Waiter serves Burger to customer #2 VIP.")
+UI -> GC : endTurn()
+GC -> R : finishEating(5)
+R -> V : isDoneEating(5)
+V --> R : false  <i>(served this turn: one full turn of eating needed)</i>
+GC -> HH : endTurn()   <i>(remainingTurns 1 -> 0: Happy Hour is over)</i>
+
+== Turn 6: eating finished ==
+UI -> GC : endTurn()
+GC -> R : finishEating(6)
+R -> V : isDoneEating(6)
+V --> R : true  <i>(servedTurn 5 < 6)</i>
+R -> V : becomeReadyToPay(6)
+
+== Turn 7: payment ==
+UI -> GC : endTurn()
+GC -> R : collectPayment(7)
+R -> K : collectPayment(customers, 7)
+loop oldest READY_TO_PAY customer first
+  K -> V : canPayOn(7)
+  V --> K : true  <i>(guard: READY_TO_PAY and readyToPayTurn 6 < 7)</i>
+end
+K -> V : completePayment()
+V -> O : markPaid()
+note right of V : records paidSatisfaction, frees the table
+K --> R : Payment(amount = 1080 cents, satisfaction = 100)
+GC --> UI : "The Cashier collects $10.80 from customer #2 VIP ..."
+
+== After turn 18: result check (step 6) ==
+UI -> GC : isGameOver()
+GC --> UI : true  <i>(the game always runs all 18 turns)</i>
+UI -> GC : getResult()
+GC -> R : getPaidCount(), getRevenueCents(), getPaidSatisfactionSum()
+alt paid >= 4 AND revenueCents >= 4500 AND satisfactionSum >= 60 * paid
+  GC --> UI : GameResult(VICTORY)
+else any target missed
+  GC --> UI : GameResult(DEFEAT)
+end
+UI --> Manager : final result and each target
+
+note over Manager, UI
+  <b>How the manager's choice changed the outcome</b>
+  If the manager answers 0 to the Happy Hour question (no Happy Hour), the VIP orders the same Burger but the bill is locked at $13.50
+  (satisfaction 95 at payment, not 100), so revenue is $2.70 lower. Choosing Happy Hour at the right moment lifted
+  the VIP to 100 and discounted the order, a trade-off between income per customer and satisfaction.
+end note
+@enduml

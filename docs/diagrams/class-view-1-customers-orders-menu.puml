@@ -1,0 +1,146 @@
+@startuml
+title Customers, orders and menu (entity, stage-3)
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam nodesep 40
+skinparam ranksep 50
+skinparam defaultFontName Helvetica
+skinparam class {
+  BackgroundColor White
+  BorderColor #333333
+  ArrowColor #333333
+}
+hide empty members
+
+  abstract class Customer {
+    - id : int
+    - satisfaction : int
+    - state : CustomerState
+    - table : Table
+    - order : Order
+    - servedTurn : int
+    - readyToPayTurn : int
+    - paidSatisfaction : int
+    + {abstract} getTypeName() : String
+    + {abstract} getWaitingLoss() : int
+    + chooseItem(menu : Menu) : MenuItem
+    + billFor(item : MenuItem) : int
+    ~ sitAt(table : Table)
+    ~ placeOrder(item : MenuItem, billCents : int) : Order
+    ~ startEating(turn : int)
+    ~ becomeReadyToPay(turn : int)
+    ~ completePayment()
+    ~ waitOneTurn()
+    ~ recoverSatisfaction(points : int) : boolean
+    ~ leaveUnhappy()
+  }
+  class RegularCustomer {
+    + getTypeName() : String
+    + getWaitingLoss() : int
+  }
+  class VIPCustomer {
+    + getTypeName() : String
+    + getWaitingLoss() : int
+    + billFor(item : MenuItem) : int
+  }
+  class CriticCustomer {
+    + getTypeName() : String
+    + getWaitingLoss() : int
+    + chooseItem(menu : Menu) : MenuItem
+  }
+  enum CustomerState {
+    WAITING_FOR_TABLE
+    SEATED
+    AWAITING_FOOD
+    EATING
+    READY_TO_PAY
+    PAID
+    ABANDONED
+  }
+  class Order {
+    - customer : Customer
+    - item : MenuItem
+    - billCents : int
+    - remainingUnits : int
+    - status : OrderStatus
+    - readyTurn : int
+    + isPreparable() : boolean
+    + isServableOn(turn : int) : boolean
+    ~ prepareOneUnit(turn : int)
+    ~ markServed()
+    ~ markPaid()
+    ~ cancel()
+  }
+  enum OrderStatus {
+    PLACED
+    IN_PROGRESS
+    READY
+    SERVED
+    PAID
+    CANCELLED
+  }
+  class Table {
+    - number : int
+    - occupant : Customer
+    + isFree() : boolean
+    ~ occupy(customer : Customer)
+    ~ release()
+  }
+  class Menu {
+    + {static} COMBO_EVERY : int = 3
+    - items : List<MenuItem>
+    - combos : List<ComboMeal>
+    + {static} classic() : Menu
+    + {static} withCombos() : Menu
+    + defaultChoiceFor(customerId : int) : MenuItem
+    + mostExpensive() : MenuItem
+    + getAllDishes() : List<MenuItem>
+  }
+  class MenuItem {
+    - name : String
+    - priceCents : int
+    - prepUnits : int
+    + getName() : String
+    + getPriceCents() : int
+    + getPrepUnits() : int
+  }
+  class ComboMeal {
+    + {static} PRICE_PERCENT : int = 90
+    - first : MenuItem
+    - second : MenuItem
+  }
+
+Customer <|-- RegularCustomer
+Customer <|-- VIPCustomer
+Customer <|-- CriticCustomer
+MenuItem <|-- ComboMeal
+Customer --> "1" CustomerState
+Customer "0..1" -- "0..1" Table : sits at
+Customer "1" -- "0..1" Order : places
+Order --> "1" MenuItem : of
+Order --> "1" OrderStatus
+Menu *-- "3..*" MenuItem
+Menu *-- "0..*" ComboMeal
+ComboMeal --> "2" MenuItem : components
+Customer ..> Menu : chooseItem(menu)
+CustomerState -[hidden]- Customer
+
+note right of Customer
+  <b>Encapsulation</b>
+  All state is private. Only staff and Restaurant
+  (same package) move a customer through its life
+  cycle via package-private methods (~), and each
+  transition validates the current state first.
+end note
+note bottom of VIPCustomer
+  <b>Polymorphism</b>
+  The controller only calls the Customer API.
+  getWaitingLoss() (8 / 5 / 12), billFor() (VIP -10%)
+  and chooseItem() (Critic) are overridden: no type checks.
+end note
+note right of ComboMeal
+  <b>Inheritance (LSP)</b>
+  A ComboMeal is a MenuItem, so Order and Chef
+  treat it like any other dish.
+end note
+@enduml

@@ -1,0 +1,78 @@
+@startuml
+title Part 3 of 4 - end of turn, READY then SERVED, eating, payment
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam sequenceMessageAlign left
+skinparam maxMessageSize 220
+skinparam ParticipantPadding 12
+skinparam BoxPadding 6
+
+actor Manager
+box "Boundary" #F5F5F5
+participant ":ConsoleUI" as UI
+end box
+box "Control" #E8F1FB
+participant ":GameController" as GC
+end box
+box "Entity" #EEF7EE
+participant ":Restaurant" as R
+participant ":HappyHour" as HH
+participant ":Host" as Host
+participant ":Waiter" as W
+participant ":Chef" as C
+participant ":Cashier" as K
+participant "vip:VIPCustomer" as V
+participant "o:Order" as O
+end box
+
+== Steps 4-5 of turn 4 (automatic) ==
+UI -> GC : endTurn()
+GC -> R : collectPayment(4)
+GC -> R : finishEating(4)
+GC -> R : applyWaitingLoss()
+loop for each customer still in the restaurant
+  R -> V : waitOneTurn()
+  note right of V : unserved: loses getWaitingLoss() = 5 (VIP)\nthen hasLostPatience()? (satisfaction == 0)
+end
+GC -> HH : endTurn()   <i>(remainingTurns 2 -> 1)</i>
+GC --> UI : TurnSummary
+
+== Turn 5: READY, then SERVED ==
+UI -> GC : beginTurn()
+GC -> R : applyHappyHourRecovery()   <i>(Happy Hour still active: waiting customers recover)</i>
+Manager -> UI : Host: wait / Waiter: serve #2
+UI -> GC : waiterServe(2)
+GC -> W : serve(vip, 5)
+W -> O : isServableOn(5)
+O --> W : true  <i>(guard: status == READY and readyTurn 4 < 5)</i>
+W -> V : startEating(5)
+V -> O : markServed()
+GC --> UI : ok("The Waiter serves Burger to customer #2 VIP.")
+UI -> GC : endTurn()
+GC -> R : finishEating(5)
+R -> V : isDoneEating(5)
+V --> R : false  <i>(served this turn: one full turn of eating needed)</i>
+GC -> HH : endTurn()   <i>(remainingTurns 1 -> 0: Happy Hour is over)</i>
+
+== Turn 6: eating finished ==
+UI -> GC : endTurn()
+GC -> R : finishEating(6)
+R -> V : isDoneEating(6)
+V --> R : true  <i>(servedTurn 5 < 6)</i>
+R -> V : becomeReadyToPay(6)
+
+== Turn 7: payment ==
+UI -> GC : endTurn()
+GC -> R : collectPayment(7)
+R -> K : collectPayment(customers, 7)
+loop oldest READY_TO_PAY customer first
+  K -> V : canPayOn(7)
+  V --> K : true  <i>(guard: READY_TO_PAY and readyToPayTurn 6 < 7)</i>
+end
+K -> V : completePayment()
+V -> O : markPaid()
+note right of V : records paidSatisfaction, frees the table
+K --> R : Payment(amount = 1080 cents, satisfaction = 100)
+GC --> UI : "The Cashier collects $10.80 from customer #2 VIP ..."
+
+@enduml

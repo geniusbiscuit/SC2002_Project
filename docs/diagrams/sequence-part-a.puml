@@ -1,0 +1,52 @@
+@startuml
+title Part 1 of 4 - arrival and the Happy Hour choice
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam sequenceMessageAlign left
+skinparam maxMessageSize 220
+skinparam ParticipantPadding 12
+skinparam BoxPadding 6
+
+actor Manager
+box "Boundary" #F5F5F5
+participant ":ConsoleUI" as UI
+end box
+box "Control" #E8F1FB
+participant ":GameController" as GC
+end box
+box "Entity" #EEF7EE
+participant ":Restaurant" as R
+participant ":HappyHour" as HH
+participant ":Host" as Host
+participant ":Waiter" as W
+participant ":Chef" as C
+participant ":Cashier" as K
+participant "vip:VIPCustomer" as V
+participant "o:Order" as O
+end box
+
+== Turn 4, step 1: arrival ==
+UI -> GC : beginTurn()
+GC -> R : startStaffTurn()
+GC -> R : addCustomer(slot.factory().apply(2))  <i>(a VIPCustomer, satisfaction 100, WAITING_FOR_TABLE)</i>
+GC --> UI : ["Customer #2 VIP arrives..."]
+UI -> R : queuedCustomers(), servableOrders(4), ...  <i>(showState: read-only)</i>
+UI --> Manager : state: queue [#2 VIP], Happy Hour available
+
+== Manager choice 1: Happy Hour (the choice that changes the outcome) ==
+UI --> Manager : "Switch Happy Hour on?  1) Yes  0) No"
+Manager -> UI : 1
+UI -> GC : activateHappyHour()
+alt no staff member has acted yet this turn
+  GC -> HH : activate()
+  note right of HH : guards: enabled and not yet used,\notherwise InvalidActionException\n("once per game") -> ActionResult.fail
+  GC -> R : applyHappyHourRecovery()
+  loop for each customer in the restaurant
+    R -> V : recoverSatisfaction(15)  <i>(only if state is unserved; max 100)</i>
+  end
+  GC --> UI : ok("Happy Hour is ON for this turn and the next ...")
+else a staff member already acted this turn
+  GC --> UI : fail("only at the start of a turn")
+end
+
+@enduml

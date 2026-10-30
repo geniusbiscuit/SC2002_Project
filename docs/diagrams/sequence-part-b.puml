@@ -1,0 +1,68 @@
+@startuml
+title Part 2 of 4 - Host, Waiter and Chef assignments (turn 4)
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam sequenceMessageAlign left
+skinparam maxMessageSize 220
+skinparam ParticipantPadding 12
+skinparam BoxPadding 6
+
+actor Manager
+box "Boundary" #F5F5F5
+participant ":ConsoleUI" as UI
+end box
+box "Control" #E8F1FB
+participant ":GameController" as GC
+end box
+box "Entity" #EEF7EE
+participant ":Restaurant" as R
+participant ":HappyHour" as HH
+participant ":Host" as Host
+participant ":Waiter" as W
+participant ":Chef" as C
+participant ":Cashier" as K
+participant "vip:VIPCustomer" as V
+participant "o:Order" as O
+end box
+
+== Steps 2-3: Host, Waiter and Chef assignments (Host, then Waiter, then Chef) ==
+Manager -> UI : Host task: seat #2
+UI -> GC : hostSeat(2)
+GC -> Host : seat(vip, tables)
+Host -> V : sitAt(table)  <i>(via Seating.seat: guards state == WAITING_FOR_TABLE and a free table)</i>
+Host --> GC : table
+GC --> UI : ok("The Host seats customer #2 VIP at table 2.")
+
+loop until the ActionResult is a success (an invalid choice does not use up the task)
+  Manager -> UI : Waiter task 3 (serve) for #2  <i>(a mistake: nothing has been ordered yet)</i>
+  UI -> GC : waiterServe(2)
+  GC -> W : serve(vip, 4)
+  W --> GC : InvalidActionException("Customer #2 has no order waiting to be served (currently SEATED)")
+  GC --> UI : fail(message)
+  UI --> Manager : "Not allowed ... Your staff task was not used - choose again."
+end
+note over GC, W : The Waiter's task was not consumed (markActed() is only reached after success),\nso the same turn continues. Before the Host acts, a Waiter choice is rejected by the controller's phase check.
+
+Manager -> UI : Waiter task: take order from #2  <i>(the Host seated #2 this turn)</i>
+UI -> GC : waiterTakeOrder(2)
+GC -> W : takeOrder(vip, menu, happyHour)
+W -> V : chooseItem(menu)
+V --> W : Burger  <i>(Menu.defaultChoiceFor(2): documented rule)</i>
+W -> V : billFor(burger)
+V --> W : 1350  <i>(polymorphism: VIPCustomer overrides billFor, -10%)</i>
+W -> HH : priceFor(1350)
+HH --> W : 1080  <i>(Happy Hour is active: -20% after the VIP discount)</i>
+W -> V : placeOrder(burger, 1080)
+V -> O : <<create>> Order(vip, burger, 1080)
+note right of O : The bill is locked now: status PLACED,\n1 preparation unit remaining.
+GC --> UI : ok("... Burger ($10.80, list price $15.00, 1 prep unit(s)).")
+
+Manager -> UI : Chef task: prepare #2
+UI -> GC : chefPrepare(2)
+GC -> C : prepare(vip, 4)
+C -> O : isPreparable()
+C -> O : prepareOneUnit(4)
+O --> C : status = READY, readyTurn = 4
+GC --> UI : ok("... The dish is READY (it can be served next turn at the earliest).")
+
+@enduml

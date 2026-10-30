@@ -1,0 +1,47 @@
+@startuml
+title Part 4 of 4 - the result check
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam sequenceMessageAlign left
+skinparam maxMessageSize 220
+skinparam ParticipantPadding 12
+skinparam BoxPadding 6
+
+actor Manager
+box "Boundary" #F5F5F5
+participant ":ConsoleUI" as UI
+end box
+box "Control" #E8F1FB
+participant ":GameController" as GC
+end box
+box "Entity" #EEF7EE
+participant ":Restaurant" as R
+participant ":HappyHour" as HH
+participant ":Host" as Host
+participant ":Waiter" as W
+participant ":Chef" as C
+participant ":Cashier" as K
+participant "vip:VIPCustomer" as V
+participant "o:Order" as O
+end box
+
+== After turn 18: result check (step 6) ==
+UI -> GC : isGameOver()
+GC --> UI : true  <i>(the game always runs all 18 turns)</i>
+UI -> GC : getResult()
+GC -> R : getPaidCount(), getRevenueCents(), getPaidSatisfactionSum()
+alt paid >= 4 AND revenueCents >= 4500 AND satisfactionSum >= 60 * paid
+  GC --> UI : GameResult(VICTORY)
+else any target missed
+  GC --> UI : GameResult(DEFEAT)
+end
+UI --> Manager : final result and each target
+
+note over Manager, UI
+  <b>How the manager's choice changed the outcome</b>
+  If the manager answers 0 to the Happy Hour question (no Happy Hour), the VIP orders the same Burger but the bill is locked at $13.50
+  (satisfaction 95 at payment, not 100), so revenue is $2.70 lower. Choosing Happy Hour at the right moment lifted
+  the VIP to 100 and discounted the order, a trade-off between income per customer and satisfaction.
+end note
+
+@enduml

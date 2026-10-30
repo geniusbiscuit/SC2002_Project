@@ -1,0 +1,118 @@
+@startuml
+title Restaurant, staff and Happy Hour (entity, stage-3)
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam nodesep 40
+skinparam ranksep 50
+skinparam defaultFontName Helvetica
+skinparam class {
+  BackgroundColor White
+  BorderColor #333333
+  ArrowColor #333333
+}
+hide empty members
+
+  class Restaurant {
+    - menu : Menu
+    - tables : List<Table>
+    - customers : List<Customer>
+    - host : Host
+    - waiter : Waiter
+    - chef : Chef
+    - cashier : Cashier
+    - happyHour : HappyHour
+    + queuedCustomers() : List<Customer>
+    + customersAwaitingOrder() : List<Customer>
+    + servableOrders(turn : int) : List<Order>
+    + preparableOrders() : List<Order>
+    + startStaffTurn()
+    + collectPayment(turn : int) : Optional<Payment>
+    + finishEating(turn : int) : List<Customer>
+    + applyWaitingLoss() : List<Customer>
+    + applyHappyHourRecovery() : List<Customer>
+    + getRevenueCents() : int
+    + getPaidCount() : int
+    + getAverageSatisfaction() : OptionalDouble
+  }
+  abstract class Staff {
+    - role : String
+    - actedThisTurn : boolean
+    + startTurn()
+    + rest()
+    + hasActed() : boolean
+    # ensureAvailable()
+    # markActed()
+  }
+  class Waiter {
+    + seat(customer : Customer, tables : Collection<Table>) : Table
+    + takeOrder(customer : Customer, menu : Menu, happyHour : HappyHour) : Order
+    + serve(customer : Customer, turn : int) : Order
+  }
+  class Host {
+    + seat(customer : Customer, tables : Collection<Table>) : Table
+  }
+  class Chef {
+    + prepare(customer : Customer, turn : int) : Order
+  }
+  class Cashier {
+    + collectPayment(customers : Collection<Customer>, turn : int) : Optional<Payment>
+  }
+  class Seating <<package-private>> {
+    ~ {static} seat(customer : Customer, tables : Collection<Table>) : Table
+  }
+  class Payment <<record>> {
+    + customer : Customer
+    + amountCents : int
+    + tableNumber : int
+    + satisfaction : int
+  }
+  class HappyHour {
+    + {static} DURATION_TURNS : int = 2
+    + {static} DISCOUNT_PERCENT : int = 20
+    + {static} RECOVERY_POINTS : int = 15
+    - enabled : boolean
+    - used : boolean
+    - remainingTurns : int
+    + isAvailable() : boolean
+    + isActive() : boolean
+    + activate()
+    + endTurn()
+    + priceFor(billCents : int) : int
+  }
+  class Table {
+    - number : int
+    - occupant : Customer
+    + isFree() : boolean
+    ~ occupy(customer : Customer)
+    ~ release()
+  }
+
+Staff <|-- Waiter
+Staff <|-- Host
+Staff <|-- Chef
+Staff <|-- Cashier
+Restaurant *-- "2..*" Table
+Restaurant *-- "1" Host
+Restaurant *-- "1" Waiter
+Restaurant *-- "1" Chef
+Restaurant *-- "1" Cashier
+Restaurant *-- "1" HappyHour
+Restaurant "1" *-- "0..*" Customer : every arrival
+Waiter ..> HappyHour : price at order time
+Waiter ..> Seating
+Host ..> Seating
+Cashier ..> Payment : returns
+class Customer <<see view 1>>
+
+note right of Restaurant
+  <b>Composition</b>
+  Restaurant owns its Tables, staff, HappyHour and every
+  Customer; none of them exists outside a Restaurant.
+end note
+note bottom of Staff
+  <b>Encapsulation + shared behaviour</b>
+  The "one task per turn" rule lives in Staff
+  (ensureAvailable / markActed), so every role gets it.
+  A rejected choice never calls markActed().
+end note
+@enduml

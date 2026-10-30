@@ -1,0 +1,125 @@
+@startuml
+title Boundary and control (stage-3)
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam nodesep 40
+skinparam ranksep 50
+skinparam defaultFontName Helvetica
+skinparam class {
+  BackgroundColor White
+  BorderColor #333333
+  ArrowColor #333333
+}
+hide empty members
+
+  class ConsoleUI {
+    - game : GameController
+    - in : BufferedReader
+    - out : PrintStream
+    - echoInput : boolean
+    + run()
+    - playTurn()
+    - showState()
+    - offerHappyHour()
+    - hostPhase()
+    - waiterPhase()
+    - chefPhase()
+    - report(result : ActionResult) : boolean
+    - readChoice(who : String, allowed : Set<Integer>) : int
+    - readInt(prompt : String) : int
+  }
+  class Main {
+    + {static} main(args : String[])
+  }
+  class GameController {
+    - config : GameConfig
+    - restaurant : Restaurant
+    - turn : int
+    - nextCustomerId : int
+    - phase : Phase
+    - choicesStarted : boolean
+    + beginTurn() : List<String>
+    + activateHappyHour() : ActionResult
+    + hostSeat(customerId : int) : ActionResult
+    + hostWait() : ActionResult
+    + waiterSeat(customerId : int) : ActionResult
+    + waiterTakeOrder(customerId : int) : ActionResult
+    + waiterServe(customerId : int) : ActionResult
+    + waiterWait() : ActionResult
+    + chefPrepare(customerId : int) : ActionResult
+    + chefWait() : ActionResult
+    + endTurn() : TurnSummary
+    + getResult() : GameResult
+    + isGameOver() : boolean
+  }
+  enum "GameController.Phase" as Phase {
+    AWAITING_TURN_START
+    HOST
+    WAITER
+    CHEF
+    READY_TO_END
+    FINISHED
+  }
+  class GameConfig <<final>> {
+    - maxTurns : int
+    - tableCount : int
+    - requiredPaidCustomers : int
+    - requiredRevenueCents : int
+    - requiredAverageSatisfaction : int
+    - menu : Menu
+    - arrivals : List<ArrivalSlot>
+    - hostEnabled : boolean
+    - happyHourEnabled : boolean
+    + {static} baseSetting() : GameConfig
+    + {static} regularOnlySetting() : GameConfig
+    + {static} fullSetting() : GameConfig
+  }
+  class "GameConfig.ArrivalSlot" as ArrivalSlot <<record>> {
+    + turn : int
+    + factory : IntFunction<Customer>
+  }
+  class ActionResult <<record>> {
+    + success : boolean
+    + message : String
+  }
+  class TurnSummary <<record>> {
+    + turn : int
+    + events : List<String>
+  }
+  class GameResult <<record>> {
+    + outcome : Outcome
+    + paidCount : int
+    + revenueCents : int
+    + satisfactionSum : int
+    + servedCount : int
+    + unhappyDepartures : int
+    + turnsUsed : int
+  }
+  enum "GameResult.Outcome" as Outcome {
+    VICTORY
+    DEFEAT
+  }
+
+Main ..> ConsoleUI : creates
+Main ..> GameConfig : chooses setting
+ConsoleUI --> "1" GameController : drives
+GameController --> "1" GameConfig
+GameController --> "1" Phase
+GameController ..> ActionResult : returns
+GameController ..> TurnSummary : returns
+GameController ..> GameResult : returns
+GameResult --> "1" Outcome
+GameConfig *-- "0..*" ArrivalSlot
+class Restaurant <<entity: see view 2>>
+GameController *-- "1" Restaurant
+
+note right of ConsoleUI
+  <b>Boundary</b>: only collects choices and prints state.
+  Every rule is in the control and entity classes.
+end note
+note left of GameController
+  <b>Control</b>: runs the six-step turn
+  (Host, Waiter, Chef order; steps 4-5 in endTurn)
+  and the victory check.
+end note
+@enduml

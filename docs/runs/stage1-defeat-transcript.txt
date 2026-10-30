@@ -1,0 +1,415 @@
+RESTAURANT RUSH - you are the manager. Staff time is limited: choose wisely.
+Goal after turn 18: at least 4 paid customers, revenue of at least $45.00 and average satisfaction of at least 60.
+
+=========================== TURN 1 of 18 ===========================
+Customer #1 Regular arrives and joins the waiting queue (satisfaction 100).
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 100)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction 100  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 1 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 1/18
+
+=========================== TURN 2 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 92)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  92  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 2 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 2/18
+
+=========================== TURN 3 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 84)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  84  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 3 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 3/18
+
+=========================== TURN 4 of 18 ===========================
+Customer #2 Regular arrives and joins the waiting queue (satisfaction 100).
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 76), #2 Regular (satisfaction 100)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  76  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction 100  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 4 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 4/18
+
+=========================== TURN 5 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 68), #2 Regular (satisfaction 92)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  68  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction  92  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 5 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 5/18
+
+=========================== TURN 6 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 60), #2 Regular (satisfaction 84)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  60  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction  84  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 6 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 6/18
+
+=========================== TURN 7 of 18 ===========================
+Customer #3 Regular arrives and joins the waiting queue (satisfaction 100).
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 52), #2 Regular (satisfaction 76), #3 Regular (satisfaction 100)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  52  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction  76  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction 100  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2,#3] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 7 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 7/18
+
+=========================== TURN 8 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 44), #2 Regular (satisfaction 68), #3 Regular (satisfaction 92)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  44  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction  68  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction  92  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2,#3] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 8 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 8/18
+
+=========================== TURN 9 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 36), #2 Regular (satisfaction 60), #3 Regular (satisfaction 84)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  36  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction  60  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction  84  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2,#3] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 9 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 9/18
+
+=========================== TURN 10 of 18 ===========================
+Customer #4 Regular arrives and joins the waiting queue (satisfaction 100).
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 28), #2 Regular (satisfaction 52), #3 Regular (satisfaction 76), #4 Regular (satisfaction 100)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  28  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction  52  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction  76  WAITING_FOR_TABLE order: -
+  #4 Regular   satisfaction 100  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2,#3,#4] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 10 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 10/18
+
+=========================== TURN 11 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 20), #2 Regular (satisfaction 44), #3 Regular (satisfaction 68), #4 Regular (satisfaction 92)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  20  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction  44  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction  68  WAITING_FOR_TABLE order: -
+  #4 Regular   satisfaction  92  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2,#3,#4] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 11 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 11/18
+
+=========================== TURN 12 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 12), #2 Regular (satisfaction 36), #3 Regular (satisfaction 60), #4 Regular (satisfaction 84)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction  12  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction  36  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction  60  WAITING_FOR_TABLE order: -
+  #4 Regular   satisfaction  84  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2,#3,#4] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 12 ---
+Results so far: served 0 | unhappy departures 0 | revenue $0.00 | average satisfaction N/A | turns used 12/18
+
+=========================== TURN 13 of 18 ===========================
+Customer #5 Regular arrives and joins the waiting queue (satisfaction 100).
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #1 Regular (satisfaction 4), #2 Regular (satisfaction 28), #3 Regular (satisfaction 52), #4 Regular (satisfaction 76), #5 Regular (satisfaction 100)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #1 Regular   satisfaction   4  WAITING_FOR_TABLE order: -
+  #2 Regular   satisfaction  28  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction  52  WAITING_FOR_TABLE order: -
+  #4 Regular   satisfaction  76  WAITING_FOR_TABLE order: -
+  #5 Regular   satisfaction 100  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#1,#2,#3,#4,#5] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 13 ---
+Customer #1 Regular loses patience and leaves without paying (order cancelled, table freed).
+Results so far: served 0 | unhappy departures 1 | revenue $0.00 | average satisfaction N/A | turns used 13/18
+
+=========================== TURN 14 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #2 Regular (satisfaction 20), #3 Regular (satisfaction 44), #4 Regular (satisfaction 68), #5 Regular (satisfaction 92)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #2 Regular   satisfaction  20  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction  44  WAITING_FOR_TABLE order: -
+  #4 Regular   satisfaction  68  WAITING_FOR_TABLE order: -
+  #5 Regular   satisfaction  92  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#2,#3,#4,#5] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 14 ---
+Results so far: served 0 | unhappy departures 1 | revenue $0.00 | average satisfaction N/A | turns used 14/18
+
+=========================== TURN 15 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #2 Regular (satisfaction 12), #3 Regular (satisfaction 36), #4 Regular (satisfaction 60), #5 Regular (satisfaction 84)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #2 Regular   satisfaction  12  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction  36  WAITING_FOR_TABLE order: -
+  #4 Regular   satisfaction  60  WAITING_FOR_TABLE order: -
+  #5 Regular   satisfaction  84  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#2,#3,#4,#5] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 15 ---
+Results so far: served 0 | unhappy departures 1 | revenue $0.00 | average satisfaction N/A | turns used 15/18
+
+=========================== TURN 16 of 18 ===========================
+Customer #6 Regular arrives and joins the waiting queue (satisfaction 100).
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #2 Regular (satisfaction 4), #3 Regular (satisfaction 28), #4 Regular (satisfaction 52), #5 Regular (satisfaction 76), #6 Regular (satisfaction 100)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #2 Regular   satisfaction   4  WAITING_FOR_TABLE order: -
+  #3 Regular   satisfaction  28  WAITING_FOR_TABLE order: -
+  #4 Regular   satisfaction  52  WAITING_FOR_TABLE order: -
+  #5 Regular   satisfaction  76  WAITING_FOR_TABLE order: -
+  #6 Regular   satisfaction 100  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#2,#3,#4,#5,#6] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 16 ---
+Customer #2 Regular loses patience and leaves without paying (order cancelled, table freed).
+Results so far: served 0 | unhappy departures 2 | revenue $0.00 | average satisfaction N/A | turns used 16/18
+
+=========================== TURN 17 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #3 Regular (satisfaction 20), #4 Regular (satisfaction 44), #5 Regular (satisfaction 68), #6 Regular (satisfaction 92)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #3 Regular   satisfaction  20  WAITING_FOR_TABLE order: -
+  #4 Regular   satisfaction  44  WAITING_FOR_TABLE order: -
+  #5 Regular   satisfaction  68  WAITING_FOR_TABLE order: -
+  #6 Regular   satisfaction  92  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#3,#4,#5,#6] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 17 ---
+Results so far: served 0 | unhappy departures 2 | revenue $0.00 | average satisfaction N/A | turns used 17/18
+
+=========================== TURN 18 of 18 ===========================
+Revenue: $0.00 | Paid customers: 0 | Average satisfaction (paid): N/A
+Waiting queue: #3 Regular (satisfaction 12), #4 Regular (satisfaction 36), #5 Regular (satisfaction 60), #6 Regular (satisfaction 84)
+Tables: T1 free | T2 free
+Customers in restaurant:
+  #3 Regular   satisfaction  12  WAITING_FOR_TABLE order: -
+  #4 Regular   satisfaction  36  WAITING_FOR_TABLE order: -
+  #5 Regular   satisfaction  60  WAITING_FOR_TABLE order: -
+  #6 Regular   satisfaction  84  WAITING_FOR_TABLE order: -
+Staff tasks available this turn:
+  Waiter: seat [#3,#4,#5,#6] | take order [none] | serve [none]
+  Chef:   prepare [none]
+  Cashier: automatic (one payment per turn, oldest ready first)
+Waiter task:  1) Seat a queued customer  2) Take an order  3) Serve a READY order  0) Wait
+Waiter choice> 0
+  -> The Waiter waits.
+Orders the Chef can prepare now: [none]
+Chef task:  1) Prepare one unit of an order  0) Wait
+Chef choice> 0
+  -> The Chef waits.
+--- End of turn 18 ---
+Results so far: served 0 | unhappy departures 2 | revenue $0.00 | average satisfaction N/A | turns used 18/18
+
+=============================== GAME OVER ===============================
+DEFEAT
+[MISS] Paid customers: 0 (need 4)
+[MISS] Revenue: $0.00 (need $45.00)
+[MISS] Average satisfaction of paid customers: N/A (need 60)
+Served: 0 | Unhappy departures: 2 | Turns used: 18
